@@ -15,38 +15,27 @@ class Game():
         self._white_moves = white_moves
         self._handi = handi
         self._handi_moves = handi_moves
-
-    @property
+        
     def rank_b(self):
         return self._rank_b
-
-    @property
+    
     def rank_w(self):
         return self._rank_w
 
-    @property
     def date(self):
         return self._date
 
-    @property
     def num_moves(self):
         return self._num_moves
 
-    @property
     def black_moves(self):
         return self._black_moves
 
-    @property
     def white_moves(self):
         return self._white_moves
 
-    @property
     def handi(self):
         return self._handi
-
-    @property
-    def handi_moves(self):
-        return self._handi_moves
 
 def get_games(dir):
     '''
@@ -57,7 +46,6 @@ def get_games(dir):
     count = 0
     for file in os.listdir(dir):
         if file.endswith(".sgf"):
-            print file
             count += 1
             print count
             arr = parse_game(dir + '/' + file)
@@ -159,9 +147,9 @@ def parse_game(path):
     f.close()
     return parsed
 
-# games = get_games(sys.argv[1])
-# total = 0
-# for game in games:
-#     total += game.num_moves
-# print total
+games = get_games(sys.argv[1])
+total = 0
+for game in games:
+    total += game.num_moves()
+print total
 

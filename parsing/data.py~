@@ -1,0 +1,163 @@
+import parse
+import numpy as np
+
+class DataSet():
+
+    def __init__(self, positions, next_moves):
+        pass
+
+class GameParser():
+    '''
+    Parses Game object into Tian/Zhu 2015 features
+    '''
+    def __init__(self, game):
+        self.game = game
+        self.last_move = None
+        self.b_to_move = True
+        self.b_move = 0
+        self.w_move = 0
+        self.board_planes = []
+        self.board_planes.append(np.zeros([19, 19])) # black
+        self.board_planes.append(np.zeros([19, 19])) # white
+        self.board_planes.append(np.ones([19, 19])) # empty
+        self.legal = np.ones([19, 19]) 
+        self.liberty_planes_b = []
+        self.liberty_planes_w = []
+        for i in range(3):
+            self.liberty_planes_b.append(np.zeros([19, 19]))
+            self.liberty_planes_w.append(np.zeros([19, 19]))
+        # Maddison 15 feature
+        # self.liberty_after_planes = []
+        # for i in range(6):
+        #     self.liberty_after_planes.append(np.zeros([19, 19]))
+        self.history_b = np.zeros([19, 19])
+        self.history_w = np.zeros([19, 19])
+        # self.capture_planes = []
+        # for i in range(7):
+        #     self.capture_planes.append(np.zeros[19, 19])
+        self.rank_planes_w = []
+        self.rank_planes_b = []
+        for i in range(9):
+            self.rank_planes_w.append(np.zeros([19, 19]))
+            self.rank_planes_b.append(np.zeros([19, 19]))
+        for i in range(int(game.rank_w())):
+            self.rank_planes_w[i] = np.ones([19, 19])
+        for i in range(int(game.rank_b())):
+            self.rank_planes_b[i] = np.ones([19, 19])
+        self.curr_chain = set()
+        self.ko_point = None
+
+    def extract_data_points(self):
+        data_points = []
+        if self.game.handi():
+            for move in self.game.handi_moves:
+                self.add_move(move)
+            self.b_to_move = False
+        self.update_liberties()
+        self.update_liberties_after()
+        # capture size should be unchanged by handicap stoens
+            
+        for i in game.num_moves():
+            # add shit to features
+            # append (features, next_move) to data_points
+            # update board with next move (call all the functions)
+            move = self.game.white_moves()[w_move]
+            if self.b_to_move:
+                move = self.game.black_moves()[b_move]
+            self.add_move(move)
+            self.last_move = move
+
+    def get_neighbors(self, position):
+        neighbors = []
+        if position[0] > 0:
+            neighbors.append((position[0] - 1, position[1]))
+        if position[0] < 18:
+            neighbors.append((position[0] + 1, position[1]))
+        if position[1] > 0:
+            neighbors.append((position[0], position[1] - 1))
+        if position[1] < 18:
+            neighbors.append((position[0], position[1] + 1))
+        return neighbors
+
+    def add_move(self, move):
+        if self.b_to_move:
+            self.board_planes[0][move[0]][move[1]] = 1
+            self.board_planes[2][move[0]][move[1]] = 0
+            self.b_legal[move[0]][move[1]] = 0
+        else:
+            self.board_planes[1][move[0]][move[1]] = 1
+            self.board_planes[2][move[0]][move[1]] = 0
+            self.b_legal[move[0]][move[1]] = 0
+
+    def update_history(self, move):
+        found = False
+        for i in range(4):
+            if not found and self.history_planes[i][move[0]][move[1]]:
+                self.history_planes[i+1][move[0]][move[1]] = 1
+                self.history_planes[i][move[0]][move[1]] = 0
+                found = True
+        if not found and not self.history_planes[4][move[0]][move[1]]:
+            self.history_planes[0][move[0]][move[1]] = 1
+                
+    def update_liberties(self, move, color):
+        # assume not captured!
+        # get all adjacent stones:
+        updated = set()
+        for neighbor in self.get_neighbors(move):
+            chain = get_chain(neighbor)
+            liberties = get_liberties(chain)
+            index = min(len(liberties, 3))
+            for stone in chain:
+                if stone not in updated:
+                    self.liberty_planes[index][stone[0]][stone[1]] = 1
+                    if index < 3:
+                        self.liberty_planes[index + 1][stone[0]][stone[1]] = 0
+                    updated.add(stone)
+
+    def get_liberties(self, chain):
+        liberty_set = set()
+        for stone in chain:
+            for neighbor in self.get_neighbors(stone):
+                if board_planes[2][neighbor[0]][neighbor[1]]:
+                    liberty_set.add(neighbor)
+        return liberty_set
+    
+    def get_chain(self, stone, color):
+        # floodfill to get chain
+        self.curr_chain = set()
+        add_to_chain(stone, color)
+        return self.curr_chain
+
+    def add_to_chain(self, stone, color):
+        '''
+        floodfill curr_chain
+        '''
+        if stone in self.curr_chain or \
+           not self.board_planes[color][stone[0]][stone[1]]:    
+            return
+        self.curr_chain.add(stone)
+        for neighbor in self.get_neighbors(stone):
+            self.add_to_chain(neighbor, color)
+            
+    def check_capture(self, move, color):
+        # color is color of move
+        captured_stones = set()
+        for neighbor in self.get_neighbors(move):
+            if self.board_planes[-1*color+1][neighbor[0]][neighbor[1]] and \
+               self.liberty_planes[0][neighbor[0]][neighbor][1]:
+                captured_stones = captured_stones.union(
+                    get_chain(neighbor, color))
+        return captured_stones
+            
+    def is_legal(self, move):
+        # TODO
+        if not self.b_empty[move[0]][move[1]]:
+            return False
+                
+def read_data_sets(dir):    
+    games = parse.get_games(dir)
+    # Split KGS data according to Tian/Zhu 2015
+    # games before 2013 are train, after are test
+
+    
+    

@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>GoKifu Share SGF Go/Baduk/Weiqi games with friends.  10</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-language" content="en"/>
+    <meta name="title" content="GoKifu Share SGF Go/Baduk/Weiqi games with friends.  10" />
+    <meta name="keywords" content="go game,go game kifu,go game records,go ,weiqi, baduk, igo ,sgf, games, online , go comunity,blog ,social network,forums ,kifu,gokifu ,professional go games,go kifu " />
+    <meta name="description" content="Share games with friends.Easy way to put played games in blog ,social network,forums " />
+    <meta name="baidu-site-verification" content="lgM2PbswkZ" />
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen" />
+    <!--[if lte IE 6]><link rel="stylesheet" href="css/style_ie.css" type="text/css" media="screen" /><![endif]-->
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />    
+    <link rel="alternate" type="application/rss+xml" title="Gokifu RSS Feed" href="http://gokifu.com/rss/"/>
+	<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="/js/jquery-ui-1.8.1.custom.min.js"></script>
+	<link type="text/css" href="/css/jquery-ui-1.8.1.custom.css " rel="stylesheet" />
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+
+<meta name="google-site-verification" content="Ce_5JZReUMNjnzRbDa5qLtfq1LQAiXRQN1xXjautyLI" />
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <div id="header">
+    <div id="r_menu">
+       <a href="http://gokifu.com/ru/">Русский</a>
+       |<a href="http://gokifu.com/ua/">Українська</a> 
+       |<a href="http://gokifu.com/ar/">عربي</a>
+       |<a href="http://gokifu.com/iw/">עיברית</a>
+       |<a href="http://gokifu.com/az/">Azərbaycan</a>
+       |<a href="http://gokifu.com/de/">Deutsch</a>
+       |<a href="http://gokifu.com/en/">English</a>
+       |<a href="http://gokifu.com/es/">Español</a>
+       |<a href="http://gokifu.com/fr/">Français</a>
+       |<a href="http://gokifu.com/it/">Italiano</a>
+       |<a href="http://gokifu.com/pl/">Polski</a>
+       |<a href="http://gokifu.com/fi/">Suomi</a>
+       |<a href="http://gokifu.com/tr/">Türkçe</a>
+       |<a href="http://gokifu.com/ko/">한국어</a>
+       |<a href="http://gokifu.com/zh/index.php">中文</a><br>
+   
+
+<div align="right"><a href="/signin.php">Login</a></div>
+
+
+
+
+       </div>
+    <a href="/index.php"><img src="/images/21logo.png"></a>
+    <a href="http://egc2016.ru/" target="_blank"><img src="/egc2016-2.jpg"></a>
+    </div><!-- #header-->
+
+   <div align="center">
+	<p><a href="/index.php">Pro</a>&nbsp;&nbsp;&nbsp;<a href="/kgs.php">KGS</a>&nbsp;&nbsp;&nbsp;<a href="/other.php">Other</a>&nbsp;&nbsp;&nbsp;<a href="/upload.php">Upload</a>&nbsp;&nbsp;&nbsp;<a  id="aclick"href="#">Archive</a>&nbsp;&nbsp;&nbsp;<a href="/tournaments.php">Tournament</a></p>
+                
+
+                <div   id="sform" >
+		<form  action="/index.php" name=f method='GET'>
+	        <input id="tags" maxlength=40 name=q size=40 title="Search" value="" >
+	        <input type=submit value="Search" style="font-size:15px"></form>
+                </div>
+		<div id="aform" style="display: none">
+  
+<a href="http://gokifu.com/index.php?a=1&y=2000&m=12">2000</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2001&m=12">2001</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2002&m=12">2002</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2003&m=12">2003</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2004&m=12">2004</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2005&m=12">2005</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2006&m=12">2006</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2007&m=12">2007</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2008&m=12">2008</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2009&m=12">2009</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2010&m=12">2010</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2011&m=12">2011</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2012&m=12">2012</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2013&m=12">2013</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2014&m=12">2014</a>&nbsp;&nbsp;<a href="http://gokifu.com/index.php?a=1&y=2015&m=12"" class="adt">2015</a>&nbsp;&nbsp;<br><span > <a href="http://gokifu.com/index.php?a=1&y=2015&m=1">01</a>&nbsp;&nbsp;&nbsp;&nbsp;</span><span > <a href="http://gokifu.com/index.php?a=1&y=2015&m=2">02</a>&nbsp;&nbsp;&nbsp;&nbsp;</span><span > <a href="http://gokifu.com/index.php?a=1&y=2015&m=3">03</a>&nbsp;&nbsp;&nbsp;&nbsp;</span><span > <a href="http://gokifu.com/index.php?a=1&y=2015&m=4">04</a>&nbsp;&nbsp;&nbsp;&nbsp;</span><span > <a href="http://gokifu.com/index.php?a=1&y=2015&m=5">05</a>&nbsp;&nbsp;&nbsp;&nbsp;</span><span > <a href="http://gokifu.com/index.php?a=1&y=2015&m=6">06</a>&nbsp;&nbsp;&nbsp;&nbsp;</span><span > <a href="http://gokifu.com/index.php?a=1&y=2015&m=7">07</a>&nbsp;&nbsp;&nbsp;&nbsp;</span><span > <a href="http://gokifu.com/index.php?a=1&y=2015&m=8">08</a>&nbsp;&nbsp;&nbsp;&nbsp;</span><span > <a href="http://gokifu.com/index.php?a=1&y=2015&m=9">09</a>&nbsp;&nbsp;&nbsp;&nbsp;</span><span > <a href="http://gokifu.com/index.php?a=1&y=2015&m=10">10</a>&nbsp;&nbsp;&nbsp;&nbsp;</span><span > <a href="http://gokifu.com/index.php?a=1&y=2015&m=11">11</a>&nbsp;&nbsp;&nbsp;&nbsp;</span><span  class="adt" > <a href="http://gokifu.com/index.php?a=1&y=2015&m=12">12</a>&nbsp;&nbsp;&nbsp;&nbsp;</span>		</div>
+
+<b>33861</b> &nbsp;&nbsp;&nbsp;<g:plusone size="small"></g:plusone>
+
+ &nbsp;&nbsp;<a href="http://gokifu.com/tournament/6-Korea-Council-Cup-2011-Russia">KR-Council Russia 2011</a>&nbsp;&nbsp;&nbsp;<a href="http://gokifu.com/tournament/2-2011-SMI-B-Finland">SMI Karsinta 2011-II</a>&nbsp;&nbsp;&nbsp;    </div>
+
+
+ <div  id="gamelist" >
+
+<br>
+<div class="player_block">
+<div class="player_name">Black</div>
+<div class="player_name">White</div>
+
+<div class="game_date">Game date</div>
+<div class="game_result">Game result</div>
+<div class="game_type">View</div>
+</div>       
