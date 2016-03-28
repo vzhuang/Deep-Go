@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
-import wthor
 import sys
+import data
 
 # Two layer convnet with x filters of some specified size
 
@@ -9,8 +9,6 @@ sess = tf.InteractiveSession()
 
 num_filters = int(sys.argv[1])
 filter_size = int(sys.argv[2])
-
-othello = wthor.read_data()
 
 # placeholders
 x = tf.placeholder(tf.float32, [None, 64])
