@@ -61,62 +61,62 @@ def get_games(dir, num_threads = 4):
             files.append(dir + '/' + file)
             count += 1
     p = Pool(processes = num_threads)
-    res = p.map_async(parse_games, np.array_split(files, num_threads)).get(1000000)
-    games = []
-    map(games.extend, res)
+    games = []        
+    for parsed in p.imap_unordered(parse_games, files):
+        games.append(parsed)
     p.close()
     p.join()
+    # map(games.extend, res)
+    print 'games parsed'
     return games
 
-def parse_games(files):
+def parse_games(file):
     '''
     Returns parsed version of list of sgf files
     '''
-    games = []
-    count = 0
-    for file in files:
-        arr = parse_game(file)
-        date, num_moves, handicap, rank_b, rank_w, handi = (0,) * 6
-        black_moves = []
-        white_moves = []
-        handi_moves = []
-        index = 0
-        while index < len(arr):
-            if arr[index] == 'HA':
-                index += 2
-                handi = int(arr[index])
-            elif arr[index] == 'AB': # add handicap stones
-                for i in range(handi):
-                    if i == 0:
-                        index += 2
-                    else:
-                        index += 3
-                    handi_moves.append(parse_move(arr[index]))
-            elif arr[index] == 'BR': # black rank
-                index += 2
-                rank_b = parse_rank(arr[index])
-            elif arr[index] == 'WR': # white rank
-                index += 2
-                rank_w = parse_rank(arr[index])
-            elif arr[index]  == 'DT': # date
-                index += 2
-                date = arr[index]
-            elif arr[index] == 'B': # black move
-                index += 2
-                if arr[index] == ']': # stop if pass
-                    break
-                black_moves.append(parse_move(arr[index]))
-                num_moves += 1
-            elif arr[index] == 'W': # white move
-                index += 2
-                if arr[index] == ']': # stop if pass
-                    break
-                white_moves.append(parse_move(arr[index]))
-                num_moves += 1
-            index += 1
-        games.append(Game(rank_b, rank_w, date, num_moves,
-                          black_moves, white_moves, handi, handi_moves))
-    return games    
+    arr = parse_game(file)
+    date, num_moves, handicap, rank_b, rank_w, handi = (0,) * 6
+    black_moves = []
+    white_moves = []
+    handi_moves = []
+    index = 0
+    while index < len(arr):
+        if arr[index] == 'HA':
+            index += 2
+            handi = int(arr[index])
+        elif arr[index] == 'AB': # add handicap stones
+            for i in range(handi):
+                if i == 0:
+                    index += 2
+                else:
+                    index += 3
+                handi_moves.append(parse_move(arr[index]))
+        elif arr[index] == 'BR': # black rank
+            index += 2
+            rank_b = parse_rank(arr[index])
+        elif arr[index] == 'WR': # white rank
+            index += 2
+            rank_w = parse_rank(arr[index])
+        elif arr[index]  == 'DT': # date
+            index += 2
+            date = arr[index]
+        elif arr[index] == 'B': # black move
+            index += 2
+            if arr[index] == ']': # stop if pass
+                break
+            black_moves.append(parse_move(arr[index]))
+            num_moves += 1
+        elif arr[index] == 'W': # white move
+            index += 2
+            if arr[index] == ']': # stop if pass
+                break
+            white_moves.append(parse_move(arr[index]))
+            num_moves += 1
+        index += 1
+        if not rank_b or not rank_w:
+            continue
+    return Game(rank_b, rank_w, date, num_moves,
+                black_moves, white_moves, handi, handi_moves)
                             
 def parse_move(move):
     '''
@@ -164,16 +164,6 @@ def parse_game(path):
     # recursively parse sgf
     game_tree << pp.Literal('(') + sequence + pp.ZeroOrMore(game_tree) + pp.Literal(')')
     collection = pp.OneOrMore(game_tree)
-    #print fstr
     parsed = collection.parseFile(f)
     f.close()
     return parsed
-
-# start = time.time()
-# games = get_games(sys.argv[1], int(sys.argv[2]))
-# print time.time()-start
-# total = 0
-# for game in games:
-#     total += game.num_moves
-# print total
-
