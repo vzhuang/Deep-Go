@@ -59,20 +59,7 @@ class BatchIterator():
             start = i*self.batch_size
             self.loaded_boards[start:start+dim] = boards
             self.loaded_moves[start:start+dim] = moves
-            # if self.loaded_boards is None:
-            #     self.loaded_boards = np.load(boards_path)
-            # else:
-            #     self.loaded_boards = np.concatenate((self.loaded_boards,
-            #                                    np.load(boards_path)),
-            #                                    axis=0)
-            # if self.loaded_moves is None:
-            #     self.loaded_moves = np.load(moves_path)
-            # else:
-            #     self.loaded_moves = np.concatenate((self.loaded_moves,
-            #                                   np.load(moves_path)),
-            #                                   axis=0)
             self._set_index_in_epoch += 1
-        # print('eyy', self.loaded_boards.shape)
         self.batch_inds = np.arange(self.batch_size * self.M)
         np.random.shuffle(self.batch_inds)
 
