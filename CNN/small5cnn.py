@@ -5,7 +5,8 @@ import os
 import re
 import time
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/..') 
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/..')
+
 
 TOWER_NAME = 'tower'
 
@@ -26,70 +27,58 @@ y_ = tf.placeholder(tf.int64, [None])
 
 # helper functions for weights/biases in CNN
 def weight_variable(shape):
-  initial = tf.truncated_normal(shape, stddev=0.01)
+  initial = tf.truncated_normal(shape, stddev=0.1)
   return tf.Variable(initial)
 
 def bias_variable(shape):
-  initial = tf.constant(0.01, shape=shape)
+  initial = tf.constant(0.1, shape=shape)
   return tf.Variable(initial)
 
 # zero padded
 def conv2d(x, W):
   return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
 
-x_board = tf.reshape(x, [-1, BOARD_SIZE, BOARD_SIZE, num_channels])
-W_conv1 = weight_variable([5, 5, num_channels, 92])
-b_conv1 = bias_variable([92])
+x_board = tf.reshape(x, [-1, BOARD_SIZE, BOARD_SIZE, 8])
+W_conv1 = weight_variable([5, 5, num_channels, 64])
+b_conv1 = bias_variable([64])
 h_conv1 = tf.nn.relu(conv2d(x_board, W_conv1) + b_conv1)
 
-W_conv2 = weight_variable([5, 5, 92, 384])
-b_conv2 = bias_variable([384])
+# _activation_summary(h_conv1)
+
+W_conv2 = weight_variable([5, 5, 64, 64])
+b_conv2 = bias_variable([64])
 h_conv2 = tf.nn.relu(conv2d(h_conv1, W_conv2) + b_conv2)
 
-W_conv3 = weight_variable([5, 5, 384, 384])
-b_conv3 = bias_variable([384])
+# _activation_summary(h_conv2)
+
+W_conv3 = weight_variable([5, 5, 64, 64])
+b_conv3 = bias_variable([64])
 h_conv3 = tf.nn.relu(conv2d(h_conv2, W_conv3) + b_conv3)
 
-W_conv4 = weight_variable([5, 5, 384, 384])
-b_conv4 = bias_variable([384])
+# _activation_summary(h_conv3)
+
+W_conv4 = weight_variable([5, 5, 64, 48])
+b_conv4 = bias_variable([48])
 h_conv4 = tf.nn.relu(conv2d(h_conv3, W_conv4) + b_conv4)
 
-W_conv5 = weight_variable([5, 5, 384, 384])
-b_conv5 = bias_variable([384])
+# _activation_summary(h_conv4)
+
+W_conv5 = weight_variable([5, 5, 48, 48])
+b_conv5 = bias_variable([48])
 h_conv5 = tf.nn.relu(conv2d(h_conv4, W_conv5) + b_conv5)
 
-W_conv6 = weight_variable([5, 5, 384, 384])
-b_conv6 = bias_variable([384])
-h_conv6 = tf.nn.relu(conv2d(h_conv5, W_conv6) + b_conv6)
-
-W_conv7 = weight_variable([5, 5, 384, 384])
-b_conv7 = bias_variable([384])
-h_conv7 = tf.nn.relu(conv2d(h_conv6, W_conv7) + b_conv7)
-
-W_conv8 = weight_variable([5, 5, 384, 384])
-b_conv8 = bias_variable([384])
-h_conv8 = tf.nn.relu(conv2d(h_conv7, W_conv8) + b_conv8)
-
-W_conv9 = weight_variable([5, 5, 384, 384])
-b_conv9 = bias_variable([384])
-h_conv9 = tf.nn.relu(conv2d(h_conv8, W_conv9) + b_conv9)
-
-W_conv10 = weight_variable([5, 5, 384, 384])
-b_conv10 = bias_variable([384])
-h_conv10 = tf.nn.relu(conv2d(h_conv9, W_conv10) + b_conv10)
-
-W_conv11 = weight_variable([5, 5, 384, 384])
-b_conv11 = bias_variable([384])
-h_conv11 = tf.nn.relu(conv2d(h_conv10, W_conv11) + b_conv11)
+# _activation_summary(h_conv5)
 
 # Final outputs from layer 5
-W_convm11 = weight_variable([3, 3, 384, 1])
-b_convm11 = bias_variable([1])
-h_convm11 = conv2d(h_conv11, W_convm11) + b_convm11
+W_convm5 = weight_variable([5, 5, 48, 1])
+b_convm5 = bias_variable([1])
+h_convm5 = conv2d(h_conv5, W_convm5) + b_convm5
 
-# y_conv = tf.sigmoid(tf.reshape(h_convm11, [-1, 361]))
-y_conv = tf.reshape(h_convm11, [-1, 361])
+# y_conv = tf.sigmoid(tf.reshape(h_convm5, [-1, 361]))
+y_conv = tf.reshape(h_convm5, [-1, 361])
 
+# train
+# loss = tf.reduce_mean(tf.pow(y_conv - y_, 2))
 loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(y_conv, y_))
 train_step = tf.train.AdamOptimizer(1e-4).minimize(loss)
 #correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1)
@@ -138,3 +127,10 @@ for i in range(1, 1000000):
   _, curr_loss, summary_str = sess.run([train_step, loss, summary_op],
                                        feed_dict={x: batch[0], y_: indices})
   summary_writer.add_summary(summary_str, i)
+  # train_step.run(feed_dict={x: batch[0], y_: batch[1]})
+
+  # evaluate test accuracy on this dataset
+  # big_batch = kgs.test.all()    
+
+# print("test accuracy %g"%accuracy.eval(feed_dict={
+#     x: kgs.test.positions, y_: kgs.test.next_moves}))
