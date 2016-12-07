@@ -53,8 +53,6 @@ def process_block(files, i, blk, out_dir, num_threads, moves_per_file):
         boards = np.array(boards, dtype=np.int8)
         moves = np.array(moves, dtype=np.int8)
         for j in range((len(boards) / moves_per_file)):
-            # for b in boards[j*moves_per_file:min((j+1)*moves_per_file, len(boards)-1)]:
-            #     print(b.shape)
             in_ind = inds[j*moves_per_file:min((j+1)*moves_per_file, len(boards)-1)]
             w_boards = np.stack(boards[in_ind])
             w_moves = np.stack(moves[in_ind])
@@ -67,8 +65,8 @@ if __name__ == '__main__':
     #                    '/home/vincent/Documents/Projects/Deep-Go/parsed/test',
     #                    games_per_thread=20,
     #                    num_threads=10)        
-    process_datapoints('/home/vincent/Documents/Projects/Deep-Go/data/kgstrain',
-                       '/home/vincent/Documents/Projects/Deep-Go/parsed/kgstrain',
+    process_datapoints('/home/vincent/Documents/Projects/Deep-Go/data/kgstest',
+                       '/home/vincent/Documents/Projects/Deep-Go/parsed/kgstest',
                        games_per_thread=200,
                        num_threads=10)    
     # process_datapoints('~/Documents/Projects/Deep-Go/data/kgstrain',

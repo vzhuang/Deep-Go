@@ -165,6 +165,8 @@ class GameParser():
                 self.update_liberties([move])
                 self.add_move(move)
             self.b_to_move = False
+
+        # ignore SGFs that are too short
         if self.game.num_moves < 20:
             return None
         # capture size should be unchanged by handicap stones
@@ -202,7 +204,8 @@ class GameParser():
             else:
                 move = self.game.white_moves[self.w_move]
                 self.w_move += 1
-                
+
+            # TODO: get rid of onehot - we can always convert later
             # onehot = np.zeros(361)
             # onehot[move[0]*19 + move[1]] = 1
             onehot = np.zeros([19, 19])

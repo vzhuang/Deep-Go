@@ -14,13 +14,15 @@ def train_step(loss, lr):
     return tf.train.AdamOptimizer(lr).minimize(loss)
 
 def loss_funcs(logits, y_):
-    loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits, y_))
+    loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits,
+                                                                         y_))
     correct_prediction = tf.equal(tf.argmax(logits, 1), y_)
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
     return loss, accuracy
 
     
-def train(model, data_dir, valid_dir, num_epochs, num_channels, batch_size, games_per_set, lr, restore=False, checkpoint_path=ckpt_path):
+def train(model, data_dir, valid_dir, num_epochs, num_channels, batch_size,
+          games_per_set, lr, restore=False, checkpoint_path=ckpt_path):
     logits = model.logits
     y_ = model.y_
     loss, accuracy = loss_funcs(logits, y_)
@@ -38,6 +40,7 @@ def train(model, data_dir, valid_dir, num_epochs, num_channels, batch_size, game
     
     if restore:
         saver.restore(sess, ckpt_path)
+        
     step = 0
     curr = time.time()
     
@@ -62,11 +65,14 @@ def train(model, data_dir, valid_dir, num_epochs, num_channels, batch_size, game
             curr = time.time()
 
         if step % 10000 == 0:
-            saver.save(checkpoint_path)
+            saver.save(sess, checkpoint_path)
             # compute validation error
             print('computing validation error...')
             valid_start = time.time()
-            valid = BatchIterator(valid_dir, games_per_set, batch_size, num_channels)
+            valid = BatchIterator(valid_dir,
+                                  games_per_set,
+                                  batch_size,
+                                  num_channels)
             valid_accuracy = []
             while valid.epochs_completed < 1:
                 batch = valid.next_batch()
@@ -77,11 +83,11 @@ def train(model, data_dir, valid_dir, num_epochs, num_channels, batch_size, game
                 valid_accuracy.append(accuracy.eval(session=sess,
                                                     feed_dict={model.x:batch[0],
                                                                model.y_: indices}))
-            print('validation error:', np.mean(valid_accuracy))
+            print('validation accuracy:', np.mean(valid_accuracy))
             print('time for validation:', time.time() - valid_start)
 
 if __name__ == '__main__':
-    model = SmallCNN(8, 19)
+    model = TZ_CNN(8, 19)
     data_dir = '/home/vincent/Documents/Projects/Deep-Go/parsed/kgstrain/'
     valid_dir = '/home/vincent/Documents/Projects/Deep-Go/parsed/kgsvalid/'
     train(model, data_dir, valid_dir, 20, 8, 128, 25, 0.00025)

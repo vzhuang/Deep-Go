@@ -5,8 +5,6 @@ import os
 import re
 import time
 
-# sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/..') 
-
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.01)
     return tf.Variable(initial)
@@ -28,7 +26,7 @@ class TZ_CNN():
 
         W_conv1 = weight_variable([5, 5, num_channels, 92])
         b_conv1 = bias_variable([92])
-        h_conv1 = tf.nn.relu(conv2d(x, W_conv1) + b_conv1)
+        h_conv1 = tf.nn.relu(conv2d(x_board, W_conv1) + b_conv1)
 
         W_conv2 = weight_variable([5, 5, 92, 384])
         b_conv2 = bias_variable([384])
@@ -76,7 +74,7 @@ class TZ_CNN():
 
         self.logits = tf.reshape(h_convm11, [-1, BOARD_SIZE**2])
 
-class SmallCNN():
+class MedCNN():
     def __init__(self, num_channels, BOARD_SIZE=19):
         self.x = tf.placeholder(tf.float32, [None, 19, 19, num_channels])
         x_board = tf.reshape(self.x, [-1, BOARD_SIZE, BOARD_SIZE, num_channels])
@@ -103,6 +101,38 @@ class SmallCNN():
         h_conv5 = tf.nn.relu(conv2d(h_conv4, W_conv5) + b_conv5)
 
         W_convm5 = weight_variable([3, 3, 384, 1])
+        b_convm5 = bias_variable([1])
+        h_convm5 = conv2d(h_conv5, W_convm5) + b_convm5
+
+        self.logits = tf.reshape(h_convm5, [-1, BOARD_SIZE**2])
+
+class SmallCNN():
+    def __init__(self, num_channels, BOARD_SIZE=19):
+        self.x = tf.placeholder(tf.float32, [None, 19, 19, num_channels])
+        x_board = tf.reshape(self.x, [-1, BOARD_SIZE, BOARD_SIZE, num_channels])
+        self.y_ = tf.placeholder(tf.int64, [None])
+        
+        W_conv1 = weight_variable([5, 5, num_channels, 64])
+        b_conv1 = bias_variable([64])
+        h_conv1 = tf.nn.relu(conv2d(x_board, W_conv1) + b_conv1)
+
+        W_conv2 = weight_variable([5, 5, 64, 64])
+        b_conv2 = bias_variable([64])
+        h_conv2 = tf.nn.relu(conv2d(h_conv1, W_conv2) + b_conv2)
+
+        W_conv3 = weight_variable([5, 5, 64, 64])
+        b_conv3 = bias_variable([64])
+        h_conv3 = tf.nn.relu(conv2d(h_conv2, W_conv3) + b_conv3)
+
+        W_conv4 = weight_variable([5, 5, 64, 48])
+        b_conv4 = bias_variable([48])
+        h_conv4 = tf.nn.relu(conv2d(h_conv3, W_conv4) + b_conv4)
+
+        W_conv5 = weight_variable([5, 5, 48, 48])
+        b_conv5 = bias_variable([48])
+        h_conv5 = tf.nn.relu(conv2d(h_conv4, W_conv5) + b_conv5)
+
+        W_convm5 = weight_variable([3, 3, 48, 1])
         b_convm5 = bias_variable([1])
         h_convm5 = conv2d(h_conv5, W_convm5) + b_convm5
 
