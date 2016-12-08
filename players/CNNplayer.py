@@ -14,6 +14,9 @@ from gtp import GTP
 
 ckpt_path = '/home/vincent/Documents/Projects/Deep-Go/saved/model.ckpt'
 
+def softmax(x, temp=1.0):
+    return np.exp(x / temp) / np.sum(np.exp(x / temp), axis=0)
+
 class CNNPlayer(Player):
 
     def __init__(self, model):
@@ -49,7 +52,9 @@ class CNNPlayer(Player):
                 if not legal[i, j]:
                     logits[19*i+j] = 0                    
         if not pick_best:
-            return 1
+            probs = softmax(logits)
+            best = np.random.choice(range(361), p=probs)
+            return (best / 19, best % 19)
         best = np.argmax(logits)
         return (best / 19, best % 19)
 

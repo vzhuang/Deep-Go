@@ -28,6 +28,9 @@ class Board():
         self.curr_chain = set() # we only parse on chain at a time
         self.ko_point = None
 
+    def add_pass(self):
+        self.change_turn()
+
     def add_move(self, x, y, c):
         move = (x, y)
         # TODO: handle handicap moves

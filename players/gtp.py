@@ -36,12 +36,12 @@ class GTP():
                 command = command[1:]
             else:
                 cmdid = ''
-            # owner_map = W*W*[0]
             ret = ''            
             # print('Got command %s', line.split())
             if command[0] == 'boardsize':
                 # assume board size is 19 for simplicity here
                 if int(command[1]) != 19:
+                    # don't print this
                     print('Incorrect board size')
                     ret = None
             elif command[0] == 'name':
@@ -51,10 +51,12 @@ class GTP():
             elif command[0] == 'clear_board':
                 self.player.clear_board()
             elif command[0] == 'play':
-                # assume x,y is valid move
-                x, y = coords_from_str(command[2])
-                self.player.add_move(x, y, color_dict[command[1]])
-                # TODO: handle pass
+                if command[2] == 'pass':
+                    # TODO: add pass logic
+                    pass                    
+                else:
+                    x, y = coords_from_str(command[2])
+                    self.player.add_move(x, y, color_dict[command[1]])
                 
             elif command[0] == 'genmove':
                 # TODO: handle pass
